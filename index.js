@@ -8,6 +8,7 @@ window.onload = ()=>{
     window.global = {
         domains: {
             domain: domains.length > 1 ? domains[domains.length - 2] : null,
+            subdomain: domains.length > 2 ? domains[domains.length - 3] : null,
             tld: domains[domains.length - 1]
         }
     }
@@ -237,7 +238,7 @@ window.mvc.v = view = function(route) {
                                 html.dataset.app = app;
                                 html.find('text').textContent = app;
                                 html.find('n').className = 'icon-' + app;
-                                html.find('iframe').src = window.location.protocol + '//' + app + '.' + global.domains.domain + '.' + global.domains.tld + pathname;
+                                html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app;
 
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
                             }
