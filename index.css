@@ -1324,7 +1324,8 @@
 }
 
 @media screen {
-    .gg-notes {
+    .gg-notes,
+    .icon-notes {
         box-sizing: border-box;
         position: relative;
         display: block;
@@ -1335,7 +1336,8 @@
         border-radius: 3px
     }
 
-    .gg-notes::after, .gg-notes::before {
+    .gg-notes::after, .gg-notes::before,
+    .icon-notes::after, .icon-notes::before {
         content: "";
         display: block;
         box-sizing: border-box;
@@ -1346,13 +1348,15 @@
         left: 2px
     }
 
-    .gg-notes::before {
+    .gg-notes::before,
+    .icon-notes::before {
         box-shadow: 0 4px 0, 0 8px 0;
         width: 12px;
         top: 2px
     }
 
-    .gg-notes::after {
+    .gg-notes::after,
+    .icon-notes::after{
         width: 6px;
         top: 14px
     }
