@@ -248,7 +248,12 @@ window.mvc.v = view = function(route) {
                                 html.dataset.app = app;
                                 html.find('text').textContent = app;
                                 html.find('n').className = 'icon-' + app;
-                                html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app;
+                                
+                                if(global.domains.domain === "github") {
+                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app;
+                                } else {
+                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.domain + '.github.' + global.domains.tld + '/' + app;                                    
+                                }
 
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
                             }
