@@ -43,7 +43,11 @@ function init() {
 
     dom.body.dataset.load = "ed";
     dom.body.onclick = (event)=>on.touch.tap(event);
-
+    
+    var url = window.location.pathname;
+    
+    var uri = ((dom.boot.dataset.path ? dom.boot.dataset.path : url) + (window.location.search + window.location.hash));
+    
     const authChange = function(e) {
         dom.body.dataset.load = "ed";
     };
@@ -55,9 +59,9 @@ function init() {
             }
             firebase.auth().onAuthStateChanged(onAuthStateChanged);
         };
-        (dom.boot.dataset.path ? dom.boot.dataset.path : window.location.pathname).router().then(load);
+        uri.router().then(load);
     } else {
-        (dom.boot.dataset.path ? dom.boot.dataset.path : window.location.pathname).router().then(authChange);
+        uri.router().then(authChange);
     }
     console.log("Initialized");
 }
@@ -65,8 +69,10 @@ function init() {
 /*ROUTER*/
 String.prototype.router = async function(params) {
     var uri = this.toString();
-    var url = new URL(uri,location.origin);
-    var route = window.route = rout.e(url.pathname + url.search + url.hash);
+    
+    var url = new URL(uri,location.origin); console.log(url);
+    var route = window.route = rout.e(url.hash ? url.hash.split('#')[1] : url.pathname + url.search + url.hash);
+    
     var go = async function(resolve, reject) {
         //console.log('String.prototype.router', route);
         if (route) {
@@ -77,7 +83,11 @@ String.prototype.router = async function(params) {
             route = window.view ? await view(route).then(rout.ed.bang(route)) : await rout.ed.bang(route);
 
             if (!pop && !["blob:"].includes(window.location.protocol)) {
-                history.pushState(route.path, '', route.path);
+                const hash = global.domains.domain === "github" ? "/#" : "";
+                var goto = window.global.domains.subdomain === "uios" ? '' : '';
+                const link = hash.length > 0 ? goto + hash + (route.hash && route.hash.length > 0 ? route.hash.split('#')[1] : route.path) + route.search : goto + route.path + route.search + route.hash;
+                console.log({link,route});
+                history.pushState(link, '', link);
             }
 
             resolve(route);
@@ -100,8 +110,8 @@ window.rout.e = state=>{
     var path = rout.ed.url(arr2);
     const GOT = rout.ed.dir(path);
     const root = GOT[0];
-    const hash = state.split('#').length > 1 ? state.split('#')[1] : null;
-    const search = state.split('?').length > 1 ? state.split('?')[1].split('#')[0] : null;
+    const hash = state.split('#').length > 1 ? "#" + state.split('#')[1] : "";
+    const search = state.split('?').length > 1 ? "?" + state.split('?')[1].split('#')[0] : "";
 
     if (GOT.length > 0) {
         var n = 0;
