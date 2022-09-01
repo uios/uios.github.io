@@ -43,15 +43,15 @@ function init() {
 
     dom.body.dataset.load = "ed";
     dom.body.onclick = (event)=>on.touch.tap(event);
-    
+
     var url = window.location.pathname;
-    
+
     var uri = ((dom.boot.dataset.path ? dom.boot.dataset.path : url) + (window.location.search + window.location.hash));
-    
+
     const authChange = function(e) {
         dom.body.dataset.load = "ed";
     };
-    if(window.firebase) {
+    if (window.firebase) {
         firebase.initializeApp(auth.config);
         const load = function(e) {
             const onAuthStateChanged = function(user) {
@@ -69,10 +69,10 @@ function init() {
 /*ROUTER*/
 String.prototype.router = async function(params) {
     var uri = this.toString();
-    
-    var url = new URL(uri,location.origin); console.log(url);
+
+    var url = new URL(uri,location.origin);
     var route = window.route = rout.e(url.hash ? url.hash.split('#')[1] : url.pathname + url.search + url.hash);
-    
+
     var go = async function(resolve, reject) {
         //console.log('String.prototype.router', route);
         if (route) {
@@ -86,7 +86,6 @@ String.prototype.router = async function(params) {
                 const hash = global.domains.domain === "github" ? "/#" : "";
                 var goto = window.global.domains.subdomain === "uios" ? '' : '';
                 const link = hash.length > 0 ? goto + hash + (route.hash && route.hash.length > 0 ? route.hash.split('#')[1] : route.path) + route.search : goto + route.path + route.search + route.hash;
-                console.log({link,route});
                 history.pushState(link, '', link);
             }
 
@@ -225,7 +224,6 @@ window.mvc.v = view = function(route) {
         var path = route.path;
         var get = route ? route.GOT : rout.ed.dir(dom.body.dataset.path);
         var root = get[0];
-        console.log('GET', GET);
 
         if (root) {
             if (root === "desktop") {
@@ -248,25 +246,31 @@ window.mvc.v = view = function(route) {
                                 html.dataset.app = app;
                                 html.find('text').textContent = app;
                                 html.find('n').className = 'icon-' + app;
-                                
-                                if(global.domains.domain === "github") {
+
+                                if (global.domains.domain === "github") {
                                     html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app;
                                 } else {
-                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.domain + '.github.' + global.domains.tld + '/' + app;                                    
+                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.domain + '.github.' + global.domains.tld + '/' + app;
                                 }
 
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
                             }
                         }
+                        
+                        log(route);
+                        resolve(route);
+                    }
+                    
+                    if (get[1] === "notifications") {
+                        byId('desktop-notifications').classList.remove('transform-translateX-100pct');
+                        
                         log(route);
                         resolve(route);
                     } else {
-                        const e = {
-                            code: 404
-                        }
-                        reject(e);
+                        byId('desktop-notifications').classList.add('transform-translateX-100pct');
                     }
                 } else {
+                    byId('desktop-notifications').classList.add('transform-translateX-100pct');
                     log(route);
                     resolve(route);
                 }
@@ -304,6 +308,29 @@ window.mvc.c.app.minimize = function(target) {
 
 window.mvc.c.app.close = function(target) {
     target.closest('page').remove();
+}
+
+window.mvc.c.desktop = {};
+window.mvc.c.desktop.tap = (target)=>{
+    console.log(target);
+    const page = target.closest('page');
+    const card = target.closest('card');
+    const start = target.closest('start');
+    if (page) {
+        console.log({
+            page
+        });
+    } else if (card) {
+        console.log({
+            card
+        });
+    } else if (start) {
+        console.log({
+            start
+        });
+    } else {
+        '/desktop/'.router();
+    }
 }
 
 window.mvc.c.log = {};

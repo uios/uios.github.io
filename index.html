@@ -155,7 +155,7 @@
                 </block>
             </blocks>
         </page>
-        <desktop data-z-index="1">
+        <desktop data-z-index="1" data-tap="controller.desktop.tap(event.target)">
             <pages class="-active -active-opacity-1 opacity-0 transition-1s" data-pages="/desktop/">
                 <picture class="bottom-0 flex flex-direction-column left-0 position-fixed right-0 top-0"></picture>
                 <blocks class="margin-bottom-50px">
@@ -248,8 +248,12 @@
                         </column>
                     </block>
                 </blocks>
+                <blocks class="background-color-db height-100pct position-fixed right-0 transform-translateX-100pct width-320px" data-transition="transform 0.3s" id="desktop-notifications">
+                    <block></block>
+                    <block></block>
+                </blocks>
                 <start class="-dark-background-color-333 background-color-ccc bottom-0 flex flex-direction-row flex-justify-content-space-between height-50px position-fixed z-index-9" data-width="100%">
-                    <page class="-dark-background-color-06 background-color-c3 bottom-0 height-568px max-height-100pc mobile-height-100pc mobile-width-100pc position-fixed width-320px z-index-9" data-page='/desktop/apps/'>
+                    <page class="-dark-background-color-06 background-color-c3 bottom-0 height-568px max-height-100pct mobile-height-100pc mobile-width-100pc position-fixed width-320px z-index-9" data-page='/desktop/apps/'>
                         <block class="width-100pc">
                             <row>
                                 <card class="width-50px">
@@ -454,7 +458,7 @@
                             </ico>
                         </row>
                     </box>
-                    <form class="-dark-background-color-333 background-color-ccc flex flex-direction-row margin-right-auto mobile-width-100pc position-relative mobile-width-100p z-index-9" id="form-desktop-search" data-width="320px">
+                    <form class="-dark-background-color-333 background-color-db flex flex-direction-row margin-right-auto mobile-width-100pc position-relative mobile-width-100p z-index-9" id="form-desktop-search" data-width="320px">
                         <row>
                             <ico>
                                 <n class="gg-search"></n>
@@ -463,7 +467,7 @@
                             <input type="submit">
                         </row>
                     </form>
-                    <box class="-dark-background-color-333 background-color-ccc position-relative z-index-9">
+                    <box class="-dark-background-color-333 background-color-ccc position-relative z-index-9" data-tap="(window.route.path === '/desktop/notifications/' ? '/desktop/' : '/desktop/notifications/').router()">
                         <row>
                             <ico>
                                 <n class="gg-bell"></n>
