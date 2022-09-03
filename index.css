@@ -643,6 +643,10 @@
         background-color: #060606;
     }
 
+    body[data-theme="dark"] .-dark-background-color-26 {
+        background: #262626;
+    }
+
     body[data-theme="dark"] .-dark-background-color-333 {
         background-color: #333333;
     }
