@@ -290,6 +290,12 @@
     [data-height="calc(100% - 50px)"] {
         height: calc(100% - 50px);
     }
+    
+    @media (max-width: 480px) {
+        .-mobile-height-100pct {
+            height: 100%;
+        }
+    }
 }
 
 /*LINE HEIGHT*/
@@ -519,15 +525,11 @@
     }
 
     @media (max-width: 480px) {
-        .mobile-height-100pc {
-            height: 100%;
-        }
-
         .mobile-width-320px {
             width: 320px;
         }
 
-        .mobile-width-100pc {
+        .-mobile-width-100pct {
             width: 100%;
         }
     }
