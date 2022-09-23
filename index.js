@@ -250,7 +250,7 @@ window.mvc.v = view = function(route) {
                                 if (global.domains.domain === "github") {
                                     html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app + '/#' + pathname;
                                 } else {
-                                    html.find('iframe').src = window.location.protocol + '//' + app + "." + global.domains.domain + "." + global.domains.tld + '/' + pathname;
+                                    html.find('iframe').src = window.location.protocol + '//' + app + "." + global.domains.domain + "." + global.domains.tld + pathname;
                                 }
 
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
