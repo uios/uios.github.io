@@ -248,9 +248,9 @@ window.mvc.v = view = function(route) {
                                 html.find('n').className = 'icon-' + app;
 
                                 if (global.domains.domain === "github") {
-                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app;
+                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.subdomain + '.' + global.domains.domain + '.' + global.domains.tld + '/' + app + '/#' + pathname;
                                 } else {
-                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.domain + '.github.' + global.domains.tld + '/' + app;
+                                    html.find('iframe').src = window.location.protocol + '//' + global.domains.domain + '.github.' + global.domains.tld + '/' + app + pathname;
                                 }
 
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
@@ -308,6 +308,7 @@ window.mvc.c.app.minimize = function(target) {
 
 window.mvc.c.app.close = function(target) {
     target.closest('page').remove();
+    '/desktop/'.router();
 }
 
 window.mvc.c.desktop = {};
