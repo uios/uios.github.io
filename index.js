@@ -256,14 +256,14 @@ window.mvc.v = view = function(route) {
                                 desktop.insertAdjacentHTML('beforeend', html.outerHTML)
                             }
                         }
-                        
+
                         log(route);
                         resolve(route);
                     }
-                    
+
                     if (get[1] === "notifications") {
                         byId('desktop-notifications').classList.remove('transform-translateX-100pct');
-                        
+
                         log(route);
                         resolve(route);
                     } else {
@@ -350,6 +350,35 @@ window.mvc.c.log.off = function() {
     window.firebase && window.auth && auth.account.user() ? auth.log.off().then('/'.router()) : '/'.router();
 }
 
+window.mvc.c.sign = {};
+window.mvc.c.sign.up = event=>{
+    event.preventDefault();
+    auth.account.setup(event).then(d=>{
+        console.log('my.setup then', {
+            d
+        });
+        var email = d.email;
+        var password = d.password;
+        auth.account.signin(email, password).then(e=>{
+            '/'.router();
+        }
+        ).catch(e=>{
+            console.log('my.setup signin catch', {
+                e
+            })
+        }
+        );
+        console.log('setup.then', d);
+    }
+    ).catch(e=>{
+        //var message = e.message;
+        //var error = message.error;
+        console.log('setup.catch', e);
+        //alert(error);
+    }
+    );
+}
+
 window.mvc.c.splash = {};
 window.mvc.c.splash.screen = function() {
     window.firebase && window.auth && auth.account.user() ? '/desktop/'.router() : '/my/'.router();
@@ -378,6 +407,21 @@ window.mvc.c.splash.time = function(io) {
 }
 
 /*VANILLA*/
+window.is = {
+    json: (text)=>{
+        return /^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))
+    }
+    ,
+    local: href=>href.contains(['127.0.0.1', 'about:', 'blob:', 'file:', 'localhost', 'tld']),
+    mobile: ()=>{
+        return ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend"in document)
+    }
+    ,
+    touch: ()=>{
+        return (('ontouchstart'in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    }
+}
+
 Array.prototype.attr = function(attr, name) {
     var that = this;
     if (that.length > 1) {
@@ -429,6 +473,15 @@ Array.prototype.removeClass = function(name) {
 Element.prototype.find = function(elem) {
     return this.querySelector(elem);
 }
+String.prototype.contains = function(pattern) {
+    var value = false
+      , p = 0;
+    do {
+        value === false ? value = this.toString().includes(pattern[p]) : null;
+        p++;
+    } while (p < pattern.length);
+    return value;
+}
 window.$ = e=>{
     var obj = e;
     if (typeof obj === 'object') {
@@ -457,6 +510,61 @@ window.$ = e=>{
 window.byId = s=>{
     return document.getElementById(s);
 }
+function ajax(url, settings) {
+    var dir = window.location.href.split(url);
+    if (!RegExp('^(?:[a-z]+:)?//', 'i').test(url)) {
+        if (window.global.domains.subdomain === "uios") {
+            url = '/' + document.head.querySelector('[name="application-shortname"]').content + url;
+        }
+    }
+    return new Promise((resolve,reject)=>{
+        var req;
+        var data = {};
+        if (settings) {
+            settings.headers ? data.headers = settings.headers : null;
+            if (settings.dataType) {
+                data = {
+                    method: settings.dataType,
+                    body: (settings.data ? settings.data : null)
+                };
+                settings.dataType === "OPTIONS" ? data.credentials = 'include' : null;
+            } else {
+                req = url;
+            }
+            settings.signal ? data.signal = signal : null;
+        } else {
+            req = url;
+        }
+        fetch(url, data).then(async(response)=>{
+            if (!response.ok) {
+                return response.text().then(text=>{
+                    var statusText = JSON.parse(text);
+                    var data = {
+                        code: response.status,
+                        message: statusText
+                    };
+                    var text = JSON.stringify(data);
+                    throw new Error(text);
+                }
+                )
+            }
+            return response.text();
+        }
+        ).then(response=>{
+            const isJSON = is.json(response);
+            const data = isJSON ? JSON.parse(response) : response;
+            resolve(response);
+        }
+        ).then(response=>resolve(response)).catch(error=>{
+            console.log('vanilla.js ajax.fetch catch', error.message);
+            const isJSON = is.json(error.message);
+            var message = isJSON ? JSON.parse(error.message) : error.message;
+            reject(message);
+        }
+        );
+    }
+    );
+}
 
 /*AUTH*/
 window.auth = {};
@@ -467,6 +575,10 @@ window.auth.config = {
     projectId: "uios-83649",
     messagingSenderId: "47824486713",
     appId: "1:47824486713:web:51f3a124b42b1080"
+}
+
+window.auth.isEmail = (email)=>{
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 window.auth.log = {};
@@ -513,5 +625,70 @@ window.auth.account.change = function(user) {
     return new Promise(a);
 }
 window.auth.account.user = function() {
+    return firebase.auth().currentUser;
+}
+window.auth.account.setup = (event)=>{
+    event.preventDefault();
+    var form = event.target;
+    var displayName = form.find('[placeholder="First Name"]').value + ' ' + form.find('[placeholder="Last Name"]').value
+      , username = form.find('[placeholder="Username"]').value;
+    var email = form.find('[placeholder="Email"]').value
+      , password = form.find('input[type="password"]').value;
+    return new Promise((resolve,reject)=>{
+        const data = new FormData();
+        data.append('email', email);
+        data.append('username', username);
+        data.append('password', password);
+        data.append('displayName', displayName);
+        console.log("auth.account.setup", {
+            data
+        });
+        if (displayName && username && email && password) {
+            if (auth.isEmail(email)) {
+                var endpoint = is.local(window.location.href) ? window.location.protocol + "//api.uios.tld" : api.endpoint;
+                ajax(endpoint + '/photo/users', {
+                    dataType: "POST",
+                    data
+                }).then(e=>{
+                    var results = JSON.parse(e)
+                      , user = auth.user();
+                    console.log("auth.account.setup", {
+                        results,
+                        user
+                    });
+                    resolve({
+                        email,
+                        password
+                    });
+                }
+                ).catch(function(error) {
+                    console.log('auth.js auth.account.setup user.create catch', {
+                        error
+                    });
+                    reject(error);
+                });
+            } else {
+                alert("You must register with a valid email address.", 3);
+            }
+        } else {
+            alert("You must supply a name, email, password and username.", 3);
+        }
+    }
+    )
+}
+window.auth.account.signin = (email,password)=>{
+    return new Promise((resolve,reject)=>{
+        firebase.auth().signInWithEmailAndPassword(email, password).then(e=>{
+            resolve(e);
+        }
+        ).catch(e=>{
+            reject(e);
+        }
+        );
+    }
+    );
+}
+
+window.auth.user = ()=>{
     return firebase.auth().currentUser;
 }
