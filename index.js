@@ -360,7 +360,7 @@ window.mvc.c.sign.up = event=>{
         var email = d.email;
         var password = d.password;
         auth.account.signin(email, password).then(e=>{
-            '/'.router();
+            '/desktop/'.router();
         }
         ).catch(e=>{
             console.log('my.setup signin catch', {
