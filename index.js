@@ -646,7 +646,7 @@ window.auth.account.setup = (event)=>{
         if (displayName && username && email && password) {
             if (auth.isEmail(email)) {
                 var endpoint = is.local(window.location.href) ? window.location.protocol + "//api.uios.tld" : api.endpoint;
-                ajax(endpoint + '/photo/users', {
+                ajax(endpoint + '/desktop/users', {
                     dataType: "POST",
                     data
                 }).then(e=>{
