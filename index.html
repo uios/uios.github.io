@@ -156,64 +156,63 @@
             </blocks>
         </page>
         <page class="-active -active-opacity-1 -active-transform-translateY-0 opacity-0 position-fixed transform-translateY-negative-100pc transition-1s" data-height="100%" data-page='/my/account/' data-width="100%">
-            <blocks class="bg-white-0-5 min-height-100vh noauth" data-backdrop-blur="10px">
-                <block class="height-100pc" data-page="/my/account/">
-                    <picture data-backdrop-blur="10px"></picture>
-                    <section class="padding-y-50px max-height-100pc--120px">
-                        <card>
-                            <picture></picture>
-                            <form class="border-radius-20px direction-column flex-unset font-size-13px margin-x-auto noauth width-300px" onsubmit="controller.my.setup(event)" id="my-setup">
-                                <box class="width-100pc">
-                                    <section class="direction-row flex-wrap-unset">
-                                        <span class="bg-white border-radius-5px inline-flex shadow">
-                                            <input class="line-height-36px padding-x-10px width-100pc" placeholder="First Name" type="text">
-                                        </span>
-                                        <span class="bg-white border-radius-5px inline-flex margin-left-10px shadow" data-href="/my/account/">
-                                            <input class="line-height-36px padding-x-10px width-100pc" placeholder="Last Name" type="text">
-                                        </span>
-                                    </section>
-                                </box>
-                                <box class="bg-white border-radius-5px margin-y-10px shadow width-100pc">
-                                    <section>
+            <blocks class="flex-align-items-center flex-justify-content-center">
+                <box class="position-fixed right-0 top-0 z-index-9" data-href="/">
+                    <row>
+                        <ico>
+                            <n class="gg-lock"></n>
+                        </ico>
+                    </row>
+                </box>
+                <block class="font-size-13px">
+                    <section class="grid-gap-30px" data-columns="1">
+                        <form class="width-300px" id="form-log-on" onsubmit="controller.log.on(event)">
+                            <column class="grid-gap-10px" data-columns="1">
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px margin-bottom-10px width-100pc">
+                                    <row>
                                         <input class="line-height-36px padding-x-10px width-100pc" placeholder="Username" type="text">
-                                    </section>
+                                    </row>
                                 </box>
-                                <box class="bg-white border-radius-5px margin-bottom-10px shadow width-100pc">
-                                    <section>
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px margin-bottom-10px width-100pc">
+                                    <row>
                                         <input class="line-height-36px padding-x-10px width-100pc" placeholder="Email" type="text">
-                                    </section>
+                                    </row>
                                 </box>
-                                <box class="bg-white border-radius-5px margin-bottom-10px shadow width-100pc">
-                                    <section class="direction-row flex">
-                                        <input class="flex-1 line-height-36px padding-x-10px" placeholder="Password" type="password">
-                                        <input class="height-36px hide invert ui-bg-key width-36px" type="submit">
-                                    </section>
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px margin-bottom-10px width-100pc">
+                                    <row>
+                                        <input class="flex-1 line-height-36px padding-left-10px padding-right-10px" placeholder="Password" type="password">
+                                        <input type="submit">
+                                    </row>
                                 </box>
-                                <box class="bg-white border-radius-5px fg-black inline-flex margin-bottom-36px shadow width-100pc" data-submit="my-setup">
-                                    <section>
-                                        <ico class="absolute height-36px left-0 width-36px" data-height="36px" data-width="36px">
-                                            <n class="ui-bg-email"></n>
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px" data-href="/desktop/">
+                                    <row class="flex-align-center">
+                                        <ico class="position-absolute left-0" data-height="36px" data-width="36px">
+                                            <n class="gg-email"></n>
                                         </ico>
-                                        <text class="flex-1 line-height-36px text-align-center">Create Account</text>
-                                    </section>
+                                        <text class="flex-1 line-height-36px text-align-center">Sign Up</text>
+                                    </row>
                                 </box>
-                                <box class="bg-white border-radius-5px fg-black inline-flex shadow width-100pc" data-href="/my/">
-                                    <section>
-                                        <ico class="absolute height-36px left-0 width-36px" data-height="36px" data-width="36px">
-                                            <n class="ui-bg-email"></n>
+                            </column>
+                        </form>
+                        <card>
+                            <column>
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px" data-href="/desktop/">
+                                    <row class="flex-align-center">
+                                        <ico class="position-absolute left-0" data-height="36px" data-width="36px">
+                                            <n class="gg-email"></n>
                                         </ico>
                                         <text class="flex-1 line-height-36px text-align-center">Signin with Account</text>
-                                    </section>
+                                    </row>
                                 </box>
-                                <box class="padding-y-10px width-100pc" data-tap="rout.ed.close()">
-                                    <section>
-                                        <ico class="absolute height-50px invert left-0 width-36px" data-height="50px" data-width="36px">
-                                            <n class="ui-bg-incognito"></n>
+                                <box data-href="/my/account/password/">
+                                    <row class="flex-align-center">
+                                        <ico class="position-absolute left-0">
+                                            <n class="icon-incognito"></n>
                                         </ico>
                                         <text class="flex-1 line-height-50px text-align-center">Continue as Guest</text>
-                                    </section>
+                                    </row>
                                 </box>
-                            </form>
+                            </column>
                         </card>
                     </section>
                 </block>
