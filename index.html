@@ -168,6 +168,16 @@
                     <section class="grid-gap-30px" data-columns="1">
                         <form class="width-300px" id="form-log-on" onsubmit="controller.log.on(event)">
                             <column class="grid-gap-10px" data-columns="1">
+                                <box class="width-100pc">
+                                    <row class="grid-gap-10px" data-columns="2">
+                                        <span class="background-color-fff box-sizing-border-box border-1px-solid border-radius-5px border-radius-5px inline-flex shadow">
+                                            <input class="line-height-36px padding-x-10px width-100pc" placeholder="First Name" type="text">
+                                        </span>
+                                        <span class="background-color-fff box-sizing-border-box border-1px-solid border-radius-5px border-radius-5px inline-flex margin-left-10px shadow" data-href="/my/account/">
+                                            <input class="line-height-36px padding-x-10px width-100pc" placeholder="Last Name" type="text">
+                                        </span>
+                                    </row>
+                                </box>
                                 <box class="box-sizing-border-box border-1px-solid border-radius-5px margin-bottom-10px width-100pc">
                                     <row>
                                         <input class="line-height-36px padding-x-10px width-100pc" placeholder="Username" type="text">
@@ -196,7 +206,7 @@
                         </form>
                         <card>
                             <column>
-                                <box class="box-sizing-border-box border-1px-solid border-radius-5px" data-href="/desktop/">
+                                <box class="box-sizing-border-box border-1px-solid border-radius-5px" data-href="/my/">
                                     <row class="flex-align-center">
                                         <ico class="position-absolute left-0" data-height="36px" data-width="36px">
                                             <n class="gg-email"></n>
@@ -204,7 +214,7 @@
                                         <text class="flex-1 line-height-36px text-align-center">Signin with Account</text>
                                     </row>
                                 </box>
-                                <box data-href="/my/account/password/">
+                                <box data-href="/desktop/">
                                     <row class="flex-align-center">
                                         <ico class="position-absolute left-0">
                                             <n class="icon-incognito"></n>
